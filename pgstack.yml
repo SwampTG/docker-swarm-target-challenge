@@ -19,7 +19,8 @@ services:
           - node.role == worker
   pgadmin:
     image: "dpage/pgadmin4:6.21"
-    depends_on: postgres
+    depends_on: 
+      - postgres
     deploy:
       mode: replicated
       replicas: 3
