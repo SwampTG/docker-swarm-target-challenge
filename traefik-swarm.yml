@@ -12,7 +12,7 @@ services:
       - "--log.level=DEBUG"
       - "--accesslog"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.docker.network=traefik-net"
+      - "--providers.docker.network=net-1"
       - "--providers.docker.swarmModeRefreshSeconds=15s"
       - "--providers.docker.constraints=Label(\"traefik.enable=true\")"
       - "--providers.docker.defaultRule=Host(`{{ trimPrefix `/` (index .Labels `com.docker.swarm.service.name`) }}.{{ index .Labels `com.docker.swarm.service.namespace` }}.swarm`)"
