@@ -10,7 +10,7 @@ services:
     networks:
       - net-3
     volumes:
-      - 'pd-data:/var/lib/postgresql/data/'
+      - 'pg-data:/var/lib/postgresql/data/'
     deploy:
       mode: replicated
       replicas: 2
