@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: target
+      POSTGRES_PASSWORD: target
+    networks:
+      - net-3
+    volumes:
+      - 'pd-data:/var/lib/postgresql/data/'
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == worker
+  pgadmin:
+    image: "dpage/pgadmin4:6.21"
+    depends_on: postgres
+    deploy:
+      placement:
+        constraints:
+          mode: replicated
+          replicas: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.constraint-label=traefik-public"
+        - "traefik.http.services.tomcat.loadbalancer.server.port=8085"
+        - "traefik.docker.network=net-2"
+        - "traefik.http.routers.pgadmin.rule=Host(`pgadm.ip172-18-0-45-cntlg0ol2o9000bak8q0-80.direct.labs.play-with-docker.com`)"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: target@targetso.com
+      PGADMIN_DEFAULT_PASSWORD: target
+    # ports:
+    #   - "8085:80"
+    networks:
+      - net-2
+      - net-3
+
+volumes:
+  pg-data:
+
+networks:
+  net-2:
+    external: true
+  net-3:
+    external: true
