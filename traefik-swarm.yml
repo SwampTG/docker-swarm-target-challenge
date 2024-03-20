@@ -52,4 +52,5 @@ services:
 networks:
   net-1:
     external: true
-
+  net-2:
+    external: true
