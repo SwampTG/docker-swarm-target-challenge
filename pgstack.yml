@@ -21,10 +21,8 @@ services:
     image: "dpage/pgadmin4:6.21"
     depends_on: postgres
     deploy:
-      placement:
-        constraints:
-          mode: replicated
-          replicas: 3
+      mode: replicated
+      replicas: 3
       labels:
         - "traefik.enable=true"
         - "traefik.constraint-label=traefik-public"
