@@ -4,11 +4,18 @@ services:
   traefik:
     image: traefik:latest
     command:
-      - --providers.docker
-      - --providers.docker.swarmMode
-      - --providers.docker.domain=traefik
-      - --providers.docker.watch
-      - --api
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.swarmMode=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--log.level=DEBUG"
+      - "--accesslog"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.network=traefik-net"
+      - "--providers.docker.swarmModeRefreshSeconds=15s"
+      - "--providers.docker.constraints=Label(\"traefik.enable=true\")"
+      - "--providers.docker.defaultRule=Host(`{{ trimPrefix `/` (index .Labels `com.docker.swarm.service.name`) }}.{{ index .Labels `com.docker.swarm.service.namespace` }}.swarm`)"
     ports:
       - "80:80"
       - "8080:8080"
