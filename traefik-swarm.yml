@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:latest
+    command:
+      - --providers.docker
+      - --providers.docker.swarmMode
+      - --providers.docker.domain=traefik
+      - --providers.docker.watch
+      - --api
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - net-1
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  net-1:
+    external: true
+
