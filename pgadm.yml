@@ -3,8 +3,6 @@ version: '3'
 services:
   pgadmin4:
     image: "dpage/pgadmin4"
-    volumes:
-      - ./pgadmin_data:/pgadmin
     deploy:
       mode: replicated
       replicas: 3
