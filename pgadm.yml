@@ -15,8 +15,8 @@ services:
         # - "traefik.http.services.pgadmin4.loadbalancer.server.port=80"
         - "traefik.http.routers.pgadmin4-http.middlewares=pgadmin4-https@docker"
         - "traefik.docker.network=net-2"
-        - "traefik.http.routers.pgadmin4-http.rule=Host(`pgadm.ip172-18-0-45-cntlg0ol2o9000bak8q0-80.direct.labs.play-with-docker.com`)"
-        - "traefik.http.routers.pgadmin4.rule=Host(`pgadm.ip172-18-0-45-cntlg0ol2o9000bak8q0-80.direct.labs.play-with-docker.com`)"
+        - "traefik.http.routers.pgadmin4-http.rule=Host(`pgadm.${OPEN_DNS}`)"
+        - "traefik.http.routers.pgadmin4.rule=Host(`pgadm.${OPEN_DNS}`)"
         - "traefik.http.routers.pgadmin4-http.entrypoints=web"
     environment:
       PGADMIN_DEFAULT_EMAIL: target@targetso.com
