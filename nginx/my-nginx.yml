@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  my-nginx:
+    image: my-nginx:latest
+    build: .
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == manager 
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.services.my-nginx.loadbalancer.server.port=80"
+        - "traefik.http.routers.api.entrypoints=web"
+        # - "traefik.http.services.pgadmin4.loadbalancer.server.port=80"
+        # - "traefik.http.routers.pgadmin4-http.middlewares=pgadmin4-https@docker"
+        - "traefik.docker.network=net-1"
+        - "traefik.http.routers.my-nginx-http.rule=Host(`app.${OPEN_DNS_8085}`)"
+        - "traefik.http.routers.my-nginx.rule=Host(`app.${OPEN_DNS_8085}`)"
+        # - "traefik.http.routers.pgadmin4-http.entrypoints=web"
+
+    # ports:
+      # - "8085:80"
+    networks:
+      - net-1
+
+networks:
+  net-1:
+    external: true
+
