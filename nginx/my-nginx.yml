@@ -2,8 +2,7 @@ version: '3'
 
 services:
   my-nginx:
-    image: my-nginx:latest
-    build: .
+    image: swamptg/my-nginx:latest
     deploy:
       mode: replicated
       replicas: 2
